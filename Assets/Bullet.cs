@@ -2,22 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+namespace TankStatus
 {
-    private Rigidbody rb;
-
-    private void Awake()
+    public class Bullet : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
-    }
+        private Rigidbody rb;
 
-    private void Start()
-    {
-        rb.AddForce(Vector3.forward * 300f);
-    }
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody>();
+        }
 
-    // Update is called once per frame
-    private void Update()
-    {
+        private void Start()
+        {
+            rb.AddForce(Vector3.forward * 300f);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            var a = collision.gameObject.GetComponent<Tank>();
+            if (a != null)
+            {
+                Debug.Log(a.hp);
+            }
+        }
     }
 }

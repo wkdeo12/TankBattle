@@ -24,6 +24,7 @@ namespace TankStatus
             if (a != null)
             {
                 Debug.Log(a.hp);
+                if (a.hp <= 0) Destroy(collision.gameObject);
             }
         }
     }

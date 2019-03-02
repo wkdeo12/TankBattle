@@ -13,11 +13,7 @@ namespace TankStatus
         {
             get
             {
-                Hp--;
-                if (Hp == 0)
-                {
-                    Destroy(this.gameObject);
-                }
+                Hp = Hp - 1;
                 return Hp;
             }
         }

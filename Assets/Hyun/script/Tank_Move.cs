@@ -9,14 +9,6 @@ public class Tank_Move : MonoBehaviour
     private float angle = 0f;
     private float range = 1000.0f;
 
-    public struct MathPos
-    {
-        public float x;
-        public float z;
-    }
-
-    private MathPos pos = new MathPos();
-
     private Vector3 mathPos = Vector3.zero;
 
     private Action tackMove = () => { };

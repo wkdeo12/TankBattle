@@ -1,53 +1,48 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Move : MonoBehaviour
+public static class Move
 {
-    private float angle;
-
-    public float Angle
-    {
-        get => angle;
-        set => angle = Mathf.Abs(value);
-    }
-
-    private float speed;
-
-    public float Speed
-    {
-        get => speed;
-        set => speed = Mathf.Abs(value);
-    }
-
     /// <summary>
     /// 전진
     /// </summary>
-    public void Advance(float speed)
+    public static void Advance(this Transform tr, Transform tank, float speed)
     {
-        transform.Translate(Vector3.forward * Mathf.Abs(speed) * Time.deltaTime);
+        tank.Translate(Vector3.forward * Mathf.Abs(speed) * Time.deltaTime);
     }
 
     /// <summary>
     /// 각도 회전
     /// </summary>
-    public void AngleRotRight(float angle)
+    public static void AngleRotRight(this Transform tr, Transform tank, float angle)
     {
-        StartCoroutine(Rotation(angle));
+        Object.FindObjectOfType<TankStatus.Tank>().StartCoroutine(Rotation(tank, angle));
     }
 
-    public void AngleRotLeft(float angle)
+    public static void AngleRotLeft(this Transform tr, Transform tank, float angle)
     {
         angle = -angle;
-        StartCoroutine(Rotation(angle));
+
+        Object.FindObjectOfType<TankStatus.Tank>().StartCoroutine(Rotation(tank, angle));
     }
 
-    public IEnumerator Rotation(float angle)
+    public static IEnumerator Rotation(Transform tank, float angle)
     {
-        float age;
         for (; ; )
         {
-            age = Mathf.Lerp(0, angle, Time.deltaTime);
+            float ypos = tank.transform.rotation.y;
+            tank.transform.rotation = Quaternion.Slerp
+                (
+                    tank.transform.rotation,
+                    Quaternion.Euler
+                    (
+                        tank.transform.rotation.x,
+                        angle,
+                        tank.transform.rotation.z
+                    ), Time.deltaTime
+                );
 
+            //if (angle >= age - 0.05f) break;
             yield return null;
         }
     }
